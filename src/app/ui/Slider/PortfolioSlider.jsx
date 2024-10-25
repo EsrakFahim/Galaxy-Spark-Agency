@@ -4,6 +4,31 @@ import Div from '../Div';
 import Slider from 'react-slick';
 
 export default function PortfolioSlider({ data }) {
+
+
+  function SampleNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "red" }}
+        onClick={onClick}
+      />
+    );
+  }
+
+  function SamplePrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "green",width:"500px",height:"500px" }}
+        onClick={onClick}
+      />
+    );
+  }
+
+
   /** Slider Settings **/
   const settings = {
     className: 'center',
@@ -12,8 +37,10 @@ export default function PortfolioSlider({ data }) {
     centerPadding: '0',
     slidesToShow: 3,
     speed: 500,
-    dots: true,
-    arrows: false,
+    dots: false,
+    arrows: true,
+    // nextArrow: <SampleNextArrow />,
+    // prevArrow: <SamplePrevArrow />,
     responsive: [
       {
         breakpoint: 768,
