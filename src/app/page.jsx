@@ -18,13 +18,21 @@ import Card from './ui/Card';
 // Hero Social Links
 const heroSocialLinks = [
   {
-    name: 'Behance',
-    links: '/',
+    name: 'Facebook',
+    links: 'https://www.facebook.com/GalaxySparkBD9',
   },
   {
-    name: 'Twitter',
-    links: '/',
+    name: 'Linkedin',
+    links: 'https://www.linkedin.com/in/galaxy-spark-797090312/',
   },
+  {
+    name: 'Instagram',
+    links: 'https://www.instagram.com/galaxysparkbd/ '
+  },
+  {
+    name: 'Pinterest',
+    links: 'https://www.pinterest.com/galaxyspark_/'
+  }
 ];
 // FunFact Data
 const funfaceData = [
@@ -86,8 +94,8 @@ export default function Home() {
         socialLinksHeading="Follow Us"
         heroSocialLinks={heroSocialLinks}
         bgImageUrl="/images/hero_bg.jpeg"
-        phoneNumber="+044 546664"
-        email="mail@mail.com"
+        phoneNumber="+880 1958-392794"
+        email="galaxysparkbd@gmail.com"
       />
       {/* End Hero Section */}
 
@@ -121,7 +129,7 @@ export default function Home() {
                 <Div className="col-lg-3 col-sm-6 cs-hidden_mobile"></Div>
                 <Div className="col-lg-3 col-sm-6">
                   <Card
-                    title="UI/UX design"
+                    title="Graphics Design"
                     link="/service/service-details"
                     src="/images/service_1.jpeg"
                     alt="Service"
@@ -131,7 +139,7 @@ export default function Home() {
                 <Div className="col-lg-3 col-sm-6 cs-hidden_mobile"></Div>
                 <Div className="col-lg-3 col-sm-6">
                   <Card
-                    title="React.js Development"
+                    title="Web Development"
                     link="/service/service-details"
                     src="/images/service_2.jpeg"
                     alt="Service"
@@ -150,7 +158,7 @@ export default function Home() {
                 <Div className="col-lg-3 col-sm-6 cs-hidden_mobile"></Div>
                 <Div className="col-lg-3 col-sm-6">
                   <Card
-                    title="Technology"
+                    title="Video Editing"
                     link="/service/service-details"
                     src="/images/service_4.jpeg"
                     alt="Service"

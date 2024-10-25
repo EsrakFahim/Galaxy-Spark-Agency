@@ -25,13 +25,13 @@ export default function RootLayout({ children }) {
       return (
             <html lang="en">
                   <head>
-                        <meta name="author" content="Laralink" />
+                        <meta name="author" content="GalaxySpark" />
                         <link
                               rel="icon"
                               href="/images/favicon.ico"
                               sizes="any"
                         />
-                        <title>Arino Creative Agency Next JS Template</title>
+                        <title>GalaxySpark</title>
                   </head>
                   <body className={`${openSans.variable} ${poppins.variable}`}>
                         <Header />

@@ -6,6 +6,7 @@
   transform: rotate(180deg) translateY(85%);
   right: 45px;
   z-index: 10;
+  transform: translate(0 ,-70%);
   &.cs-left_side {
     right: initial;
     left: 45px;

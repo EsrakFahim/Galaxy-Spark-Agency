@@ -3,6 +3,7 @@ import parse from 'html-react-parser';
 import Div from '../Div';
 import Button from '../Button';
 import VerticalLinks from '../VerticalLinks';
+import Link from 'next/link';
 
 export default function Hero({
   title,
@@ -43,12 +44,20 @@ export default function Hero({
           <ul className="cs-hero_social_links">
             {email && (
               <li>
-                <span>{email}</span>
+                <Link
+                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${email}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span>{email}</span>
+                </Link>
               </li>
             )}
             {phoneNumber && (
               <li>
-                <span>{phoneNumber}</span>
+                <Link href={`https://wa.me/8801958392794`} target="_blank">
+                  <span>{phoneNumber}</span>
+                </Link>
               </li>
             )}
           </ul>
@@ -57,6 +66,6 @@ export default function Hero({
       <a href={scrollDownId} className="cs-down_btn">
         .
       </a>
-    </Div>
+    </Div >
   );
 }

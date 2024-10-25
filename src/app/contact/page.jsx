@@ -69,9 +69,9 @@ export default function ContactPage() {
       </Div>
       <Spacing lg="150" md="80" />
       <Div className="cs-google_map">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d96652.27317354927!2d-74.33557928194516!3d40.79756494697628!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3a82f1352d0dd%3A0x81d4f72c4435aab5!2sTroy+Meadows+Wetlands!5e0!3m2!1sen!2sbd!4v1563075599994!5m2!1sen!2sbd"
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3136.589958348911!2d89.5561272753076!3d22.813148479321107!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa75b1dd1f2d9c62d%3A0xde2b5fa051ac001a!2sGalaxySpark%20%7C%20Best%20freelancing%20training%20center%20in%20Khulna!5e1!3m2!1sen!2sbd!4v1729848665996!5m2!1sen!2sbd"
           allowFullScreen
+          // referrerpolicy="no-referrer-when-downgrade"
           title="Google Map"
         />
       </Div>
