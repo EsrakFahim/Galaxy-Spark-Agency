@@ -23,3 +23,13 @@
 @import 'components/team';
 @import 'components/testimonial';
 @import 'components/timeline';
+
+
+* {
+      scrollbar-width: 0px;
+      -ms-overflow-style: none;
+
+      ::-webkit-scrollbar {
+            display: none;
+      }
+}
