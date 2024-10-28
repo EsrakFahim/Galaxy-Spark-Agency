@@ -49,7 +49,7 @@ export default function Footer({ copyrightText, logoSrc, logoAlt, text }) {
                 <TextWidget
                   logoSrc="/images/footer_logo.svg"
                   logoAlt="Logo"
-                  text="Welcome to arino sed ut perspiciae omunde omnis iste natus error sitort voluptatem accusantium."
+                  text="Welcome to GalaxySpark sed ut perspiciae omunde omnis iste natus error sitort voluptatem accusantium."
                 />
                 <SocialWidget />
               </Div>
