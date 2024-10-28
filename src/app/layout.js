@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
                         <meta name="author" content="GalaxySpark" />
                         <link
                               rel="icon"
-                              href="/images/favicon.ico"
+                              href="/images/faviconGS.png"
                               sizes="any"
                         />
                         <title>GalaxySpark</title>
