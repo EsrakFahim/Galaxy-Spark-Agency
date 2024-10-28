@@ -38,11 +38,11 @@ const heroSocialLinks = [
 const funfaceData = [
   {
     title: 'Global Happy Clients',
-    factNumber: '40K',
+    factNumber: '40',
   },
   {
     title: 'Project Completed',
-    factNumber: '50K',
+    factNumber: '50',
   },
   {
     title: 'Team Members',

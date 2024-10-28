@@ -1,5 +1,6 @@
 import React from 'react';
 import Div from '../Div';
+import StatsCountingAmin from '../Widget/StatsCountingAmin/StatsCountingAmin';
 
 export default function FunFact({ variant, title, subtitle, data }) {
   return (
@@ -20,7 +21,8 @@ export default function FunFact({ variant, title, subtitle, data }) {
             <Div className="cs-funfact cs-style1" key={index}>
               <Div className="cs-funfact_number cs-primary_font cs-semi_bold cs-primary_color">
                 <span />
-                {item.factNumber}
+                {/* {item.factNumber} */}
+                <StatsCountingAmin from={0} to={item.factNumber} duration={3} />
               </Div>
               <Div className="cs-funfact_text">
                 <span className="cs-accent_color">+</span>
