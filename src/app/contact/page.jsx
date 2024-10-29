@@ -1,20 +1,89 @@
-'use client'
+'use client';
+import { useForm } from 'react-hook-form';
 import Div from "@/app/ui/Div";
 import PageHeading from "@/app/ui/PageHeading";
 import SectionHeading from "@/app/ui/SectionHeading";
 import Spacing from "@/app/ui/Spacing";
 import ContactInfoWidget from "@/app/ui/Widget/ContactInfoWidget";
 import { Icon } from "@iconify/react";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export default function ContactPage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const [loading, setLoading] = useState(false);
+
+  // Disable mouse wheel and keyboard scrolling on loading
+  useEffect(() => {
+    const disableScroll = (event) => {
+      event.preventDefault(); // Prevent default scroll behavior
+    };
+
+    const disableArrowKeys = (event) => {
+      const keysToDisable = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'];
+      if (keysToDisable.includes(event.key)) {
+        event.preventDefault(); // Disable arrow and space key scrolling
+      }
+    };
+
+    if (loading) {
+      document.body.style.overflow = 'hidden'; // Disable overflow scrolling
+      window.addEventListener('wheel', disableScroll, { passive: false }); // Disable mouse wheel
+      window.addEventListener('keydown', disableArrowKeys); // Disable arrow keys
+    } else {
+      document.body.style.overflow = 'auto'; // Re-enable overflow scrolling
+      window.removeEventListener('wheel', disableScroll); // Re-enable mouse wheel
+      window.removeEventListener('keydown', disableArrowKeys); // Re-enable arrow keys
+    }
+
+    // Cleanup function to reset scroll behavior when the component unmounts
+    return () => {
+      document.body.style.overflow = 'auto';
+      window.removeEventListener('wheel', disableScroll);
+      window.removeEventListener('keydown', disableArrowKeys);
+    };
+  }, [loading]);
+
+  const handleSubmitUserData = async (data) => {
+    try {
+      setLoading(true); // Set loading to true before the request
+      const response = await axios.post('https://api.example.com/user', data);
+      console.log('Response:', response.data);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false); // Ensure loading state is reset
+    }
+  };
+
+  const onSubmit = (data) => {
+    console.log('Form Data:', data);
+    handleSubmitUserData(data);
+    reset(); // Reset the form after submission
+  };
+
   return (
-    <>
+    <div className="position-relative">
+      {/* Loader */}
+      {loading && (
+        <div className="loadingContainer">
+          <div className="loader"></div>
+        </div>
+      )}
+
       <PageHeading
         title="Contact Us"
         bgSrc="/images/contact_hero_bg.jpeg"
         pageLinkText="Contact"
       />
       <Spacing lg="150" md="80" />
+
       <Div className="container">
         <Div className="row">
           <Div className="col-lg-6">
@@ -26,40 +95,94 @@ export default function ContactPage() {
             <ContactInfoWidget withIcon />
             <Spacing lg="0" md="50" />
           </Div>
+
           <Div className="col-lg-6">
-            <form action="#" className="row">
-              <Div className="col-sm-6">
-                <label className="cs-primary_color">Full Name*</label>
-                <input type="text" className="cs-form_field" />
-                <Spacing lg="20" md="20" />
+            <form onSubmit={handleSubmit(onSubmit)} className="row g-3">
+              {/* Full Name */}
+              <Div className="col-md-6">
+                <label className="form-label cs-primary_color">Full Name*</label>
+                <input
+                  type="text"
+                  className={`form-control ${errors.fullName ? 'is-invalid' : ''}`}
+                  {...register('fullName', { required: 'Full Name is required' })}
+                />
+                {errors.fullName && (
+                  <div className="invalid-feedback">{errors.fullName.message}</div>
+                )}
               </Div>
-              <Div className="col-sm-6">
-                <label className="cs-primary_color">Email*</label>
-                <input type="text" className="cs-form_field" />
-                <Spacing lg="20" md="20" />
+
+              {/* Email */}
+              <Div className="col-md-6">
+                <label className="form-label cs-primary_color">Email*</label>
+                <input
+                  type="email"
+                  className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                  {...register('email', {
+                    required: 'Email is required',
+                    pattern: {
+                      value: /^\S+@\S+$/i,
+                      message: 'Invalid email format',
+                    },
+                  })}
+                />
+                {errors.email && (
+                  <div className="invalid-feedback">{errors.email.message}</div>
+                )}
               </Div>
-              <Div className="col-sm-6">
-                <label className="cs-primary_color">Project Type*</label>
-                <input type="text" className="cs-form_field" />
-                <Spacing lg="20" md="20" />
+
+              {/* Project Type */}
+              <Div className="col-md-6">
+                <label className="form-label cs-primary_color">Project Type*</label>
+                <input
+                  type="text"
+                  className={`form-control ${errors.projectType ? 'is-invalid' : ''}`}
+                  {...register('projectType', { required: 'Project Type is required' })}
+                />
+                {errors.projectType && (
+                  <div className="invalid-feedback">{errors.projectType.message}</div>
+                )}
               </Div>
-              <Div className="col-sm-6">
-                <label className="cs-primary_color">Mobile*</label>
-                <input type="text" className="cs-form_field" />
-                <Spacing lg="20" md="20" />
+
+              {/* Mobile */}
+              <Div className="col-md-6">
+                <label className="form-label cs-primary_color">Mobile*</label>
+                <input
+                  type="tel"
+                  className={`form-control ${errors.mobile ? 'is-invalid' : ''}`}
+                  {...register('mobile', {
+                    required: 'Mobile is required',
+                    pattern: {
+                      value: /^[0-9]{10,15}$/,
+                      message: 'Invalid mobile number',
+                    },
+                  })}
+                />
+                {errors.mobile && (
+                  <div className="invalid-feedback">{errors.mobile.message}</div>
+                )}
               </Div>
-              <Div className="col-sm-12">
-                <label className="cs-primary_color">Mobile*</label>
+
+              {/* Message */}
+              <Div className="col-12">
+                <label className="form-label cs-primary_color">Message*</label>
                 <textarea
-                  cols="30"
-                  rows="7"
-                  className="cs-form_field"
+                  className={`form-control ${errors.message ? 'is-invalid' : ''}`}
+                  rows="5"
+                  {...register('message', { required: 'Message is required' })}
                 ></textarea>
-                <Spacing lg="25" md="25" />
+                {errors.message && (
+                  <div className="invalid-feedback">{errors.message.message}</div>
+                )}
               </Div>
-              <Div className="col-sm-12">
-                <button className="cs-btn cs-style1">
-                  <span>Send Message</span>
+
+              {/* Submit Button */}
+              <Div className="col-12">
+                <button
+                  type="submit"
+                  className="btn btn-primary d-flex align-items-center"
+                  disabled={loading} // Disable button while loading
+                >
+                  <span className="me-2">Send Message</span>
                   <Icon icon="bi:arrow-right" />
                 </button>
               </Div>
@@ -67,15 +190,16 @@ export default function ContactPage() {
           </Div>
         </Div>
       </Div>
+
       <Spacing lg="150" md="80" />
       <Div className="cs-google_map">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3136.589958348911!2d89.5561272753076!3d22.813148479321107!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa75b1dd1f2d9c62d%3A0xde2b5fa051ac001a!2sGalaxySpark%20%7C%20Best%20freelancing%20training%20center%20in%20Khulna!5e1!3m2!1sen!2sbd!4v1729848665996!5m2!1sen!2sbd"
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3136.589958348911!2d89.5561272753076!3d22.813148479321107!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa75b1dd1f2d9c62d%3A0xde2b5fa051ac001a!2sGalaxySpark%20%7C%20Best%20freelancing%20training%20center%20in%20Khulna!5e1!3m2!1sen!2sbd!4v1729848665996!5m2!1sen!2sbd"
           allowFullScreen
-          // referrerpolicy="no-referrer-when-downgrade"
           title="Google Map"
         />
       </Div>
       <Spacing lg="50" md="40" />
-    </>
+    </div>
   );
 }
