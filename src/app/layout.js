@@ -25,14 +25,37 @@ export default function RootLayout({ children }) {
       return (
             <html lang="en">
                   <head>
+                        <meta charset="UTF-8" />
+                        <meta
+                              name="viewport"
+                              content="width=device-width, initial-scale=1.0"
+                        />
                         <meta name="author" content="GalaxySpark" />
+
+                        {/* <!-- Favicon for all sizes --> */}
                         <link
                               rel="icon"
                               href="/images/faviconGS.png"
+                              type="image/png"
                               sizes="any"
                         />
+
+                        {/* <!-- Favicon fallback for older browsers --> */}
+                        <link
+                              rel="shortcut icon"
+                              href="/images/faviconGS.ico"
+                              type="image/x-icon"
+                        />
+
+                        {/* <!-- Apple Touch Icon (for iOS Home Screen) --> */}
+                        <link
+                              rel="apple-touch-icon"
+                              href="/images/faviconGS.png"
+                        />
+
                         <title>GalaxySpark</title>
                   </head>
+
                   <body className={`${openSans.variable} ${poppins.variable}`}>
                         <Header />
                         {children}
