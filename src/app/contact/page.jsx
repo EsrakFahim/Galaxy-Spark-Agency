@@ -18,6 +18,7 @@ export default function ContactPage() {
   } = useForm();
 
   const [loading, setLoading] = useState(false);
+  const [clientIP, setClientIP] = useState('');
 
   // Disable mouse wheel and keyboard scrolling on loading
   useEffect(() => {
@@ -50,10 +51,25 @@ export default function ContactPage() {
     };
   }, [loading]);
 
+
+  // Fetch client's IP address
+  const fetchIP = async () => {
+    try {
+      const res = await axios.get(
+        "https://api.ipify.org?format=json"
+      );
+      setClientIP(res.data.ip); // Set the client's IP
+    } catch (error) {
+      console.error("Error fetching client IP:", error);
+    }
+  };
+
+
+
   const handleSubmitUserData = async (data) => {
     try {
       setLoading(true); // Set loading to true before the request
-      const response = await axios.post('https://api.example.com/user', data);
+      const response = await axios.post('http://localhost:5000/api/v1/client', data);
       console.log('Response:', response.data);
     } catch (error) {
       console.error('Error:', error);
@@ -62,9 +78,11 @@ export default function ContactPage() {
     }
   };
 
-  const onSubmit = (data) => {
-    console.log('Form Data:', data);
-    handleSubmitUserData(data);
+  const onSubmit = async (data) => {
+    await fetchIP(); // Fetch client's IP before submitting the form data to the server
+    const userData = { ...data, clientIP };
+    console.log('Form Data:', userData);
+    handleSubmitUserData(userData);
     reset(); // Reset the form after submission
   };
 
@@ -133,11 +151,15 @@ export default function ContactPage() {
               {/* Project Type */}
               <Div className="col-md-6">
                 <label className="form-label cs-primary_color">Project Type*</label>
-                <input
-                  type="text"
+                <select
                   className={`form-control ${errors.projectType ? 'is-invalid' : ''}`}
                   {...register('projectType', { required: 'Project Type is required' })}
-                />
+                >
+                  <option value="">Select Project Type</option>
+                  <option value="type1">Type 1</option>
+                  <option value="type2">Type 2</option>
+                  <option value="type2">Type 2</option>
+                </select>
                 {errors.projectType && (
                   <div className="invalid-feedback">{errors.projectType.message}</div>
                 )}
@@ -163,17 +185,19 @@ export default function ContactPage() {
               </Div>
 
               {/* Message */}
+              {/* Message */}
               <Div className="col-12">
-                <label className="form-label cs-primary_color">Message*</label>
+                <label className="form-label cs-primary_color">Message</label>
                 <textarea
                   className={`form-control ${errors.message ? 'is-invalid' : ''}`}
                   rows="5"
-                  {...register('message', { required: 'Message is required' })}
+                  {...register('message')}
                 ></textarea>
                 {errors.message && (
                   <div className="invalid-feedback">{errors.message.message}</div>
                 )}
               </Div>
+
 
               {/* Submit Button */}
               <Div className="col-12">
