@@ -20,30 +20,40 @@ export default function ContactPage() {
   const [loading, setLoading] = useState(false);
   const [clientIP, setClientIP] = useState('');
 
-  // Disable mouse wheel and keyboard scrolling on loading
+  // Fetch client's IP address on mount
   useEffect(() => {
-    const disableScroll = (event) => {
-      event.preventDefault(); // Prevent default scroll behavior
+    const fetchIP = async () => {
+      try {
+        const res = await axios.get("https://api.ipify.org?format=json");
+        setClientIP(res.data.ip); // Set the client's IP
+      } catch (error) {
+        console.error("Error fetching client IP:", error);
+      }
     };
 
+    fetchIP(); // Call the function to fetch IP on component mount
+  }, []);
+
+  // Disable mouse wheel and keyboard scrolling on loading
+  useEffect(() => {
+    const disableScroll = (event) => event.preventDefault();
     const disableArrowKeys = (event) => {
       const keysToDisable = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'];
       if (keysToDisable.includes(event.key)) {
-        event.preventDefault(); // Disable arrow and space key scrolling
+        event.preventDefault();
       }
     };
 
     if (loading) {
-      document.body.style.overflow = 'hidden'; // Disable overflow scrolling
-      window.addEventListener('wheel', disableScroll, { passive: false }); // Disable mouse wheel
-      window.addEventListener('keydown', disableArrowKeys); // Disable arrow keys
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('wheel', disableScroll, { passive: false });
+      window.addEventListener('keydown', disableArrowKeys);
     } else {
-      document.body.style.overflow = 'auto'; // Re-enable overflow scrolling
-      window.removeEventListener('wheel', disableScroll); // Re-enable mouse wheel
-      window.removeEventListener('keydown', disableArrowKeys); // Re-enable arrow keys
+      document.body.style.overflow = 'auto';
+      window.removeEventListener('wheel', disableScroll);
+      window.removeEventListener('keydown', disableArrowKeys);
     }
 
-    // Cleanup function to reset scroll behavior when the component unmounts
     return () => {
       document.body.style.overflow = 'auto';
       window.removeEventListener('wheel', disableScroll);
@@ -51,38 +61,22 @@ export default function ContactPage() {
     };
   }, [loading]);
 
-
-  // Fetch client's IP address
-  const fetchIP = async () => {
-    try {
-      const res = await axios.get(
-        "https://api.ipify.org?format=json"
-      );
-      setClientIP(res.data.ip); // Set the client's IP
-    } catch (error) {
-      console.error("Error fetching client IP:", error);
-    }
-  };
-
-
-
   const handleSubmitUserData = async (data) => {
     try {
-      setLoading(true); // Set loading to true before the request
+      setLoading(true);
       const response = await axios.post('http://localhost:5000/api/v1/client', data);
       console.log('Response:', response.data);
     } catch (error) {
       console.error('Error:', error);
     } finally {
-      setLoading(false); // Ensure loading state is reset
+      setLoading(false);
     }
   };
 
   const onSubmit = async (data) => {
-    await fetchIP(); // Fetch client's IP before submitting the form data to the server
-    const userData = { ...data, clientIP };
+    const userData = { ...data, clientIP }; // Include clientIP in the data
     console.log('Form Data:', userData);
-    handleSubmitUserData(userData);
+    await handleSubmitUserData(userData);
     reset(); // Reset the form after submission
   };
 
@@ -115,7 +109,7 @@ export default function ContactPage() {
           </Div>
 
           <Div className="col-lg-6">
-            <form onSubmit={handleSubmit(onSubmit)} className="row g-3">
+            <form onSubmit={handleSubmit(onSubmit)} className="row g-3" autoComplete="off">
               {/* Full Name */}
               <Div className="col-md-6">
                 <label className="form-label cs-primary_color">Full Name*</label>
@@ -123,6 +117,7 @@ export default function ContactPage() {
                   type="text"
                   className={`form-control ${errors.fullName ? 'is-invalid' : ''}`}
                   {...register('fullName', { required: 'Full Name is required' })}
+                  autoComplete="off"
                 />
                 {errors.fullName && (
                   <div className="invalid-feedback">{errors.fullName.message}</div>
@@ -142,6 +137,7 @@ export default function ContactPage() {
                       message: 'Invalid email format',
                     },
                   })}
+                  autoComplete="off"
                 />
                 {errors.email && (
                   <div className="invalid-feedback">{errors.email.message}</div>
@@ -154,10 +150,10 @@ export default function ContactPage() {
                 <select
                   className={`form-control ${errors.projectType ? 'is-invalid' : ''}`}
                   {...register('projectType', { required: 'Project Type is required' })}
+                  autoComplete="off"
                 >
                   <option value="">Select Project Type</option>
                   <option value="type1">Type 1</option>
-                  <option value="type2">Type 2</option>
                   <option value="type2">Type 2</option>
                 </select>
                 {errors.projectType && (
@@ -178,6 +174,7 @@ export default function ContactPage() {
                       message: 'Invalid mobile number',
                     },
                   })}
+                  autoComplete="off"
                 />
                 {errors.mobile && (
                   <div className="invalid-feedback">{errors.mobile.message}</div>
@@ -185,26 +182,25 @@ export default function ContactPage() {
               </Div>
 
               {/* Message */}
-              {/* Message */}
               <Div className="col-12">
                 <label className="form-label cs-primary_color">Message</label>
                 <textarea
                   className={`form-control ${errors.message ? 'is-invalid' : ''}`}
                   rows="5"
                   {...register('message')}
+                  autoComplete="off"
                 ></textarea>
                 {errors.message && (
                   <div className="invalid-feedback">{errors.message.message}</div>
                 )}
               </Div>
 
-
               {/* Submit Button */}
               <Div className="col-12">
                 <button
                   type="submit"
                   className="btn btn-primary d-flex align-items-center"
-                  disabled={loading} // Disable button while loading
+                  disabled={loading}
                 >
                   <span className="me-2">Send Message</span>
                   <Icon icon="bi:arrow-right" />
