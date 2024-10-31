@@ -64,7 +64,7 @@ export default function ContactPage() {
   const handleSubmitUserData = async (data) => {
     try {
       setLoading(true);
-      const response = await axios.post('http://localhost:5000/api/v1/client', data);
+      const response = await axios.post('https://galaxy-spark-server.vercel.app/api/v1/client', data);
       console.log('Response:', response.data);
     } catch (error) {
       console.error('Error:', error);
