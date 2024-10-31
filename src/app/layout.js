@@ -9,6 +9,7 @@ import { Poppins, Open_Sans } from "next/font/google";
 import Div from "./ui/Div";
 import Cta from "./ui/Cta";
 import Spacing from "./ui/Spacing";
+import { Toaster } from "react-hot-toast";
 
 const poppins = Poppins({
       subsets: ["latin"],
@@ -58,6 +59,7 @@ export default function RootLayout({ children }) {
                         </Div>
                         <Footer />
                         <CustomCursor />
+                        <Toaster />
                   </body>
             </html>
       );

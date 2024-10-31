@@ -8,6 +8,7 @@ import ContactInfoWidget from "@/app/ui/Widget/ContactInfoWidget";
 import { Icon } from "@iconify/react";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 export default function ContactPage() {
   const {
@@ -65,8 +66,10 @@ export default function ContactPage() {
     try {
       setLoading(true);
       const response = await axios.post('https://galaxy-spark-server.vercel.app/api/v1/client', data);
+      if (response.status === 200) toast.success('Message sent successfully');        ;
       console.log('Response:', response.data);
     } catch (error) {
+      toast.error('Failed to send message');
       console.error('Error:', error);
     } finally {
       setLoading(false);
