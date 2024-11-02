@@ -66,7 +66,7 @@ export default function ContactPage() {
     try {
       setLoading(true);
       const response = await axios.post('https://galaxy-spark-server.vercel.app/api/v1/client', data);
-      if (response.status === 200) toast.success('Message sent successfully');        ;
+      if (response.status === 200) toast.success('Message sent successfully');;
       console.log('Response:', response.data);
     } catch (error) {
       toast.error('Failed to send message');
@@ -156,8 +156,8 @@ export default function ContactPage() {
                   autoComplete="off"
                 >
                   <option value="">Select Project Type</option>
-                  <option value="type1">Type 1</option>
-                  <option value="type2">Type 2</option>
+                  <option value="type1">Business Class</option>
+                  {/* <option value="type2">Type 2</option> */}
                 </select>
                 {errors.projectType && (
                   <div className="invalid-feedback">{errors.projectType.message}</div>
