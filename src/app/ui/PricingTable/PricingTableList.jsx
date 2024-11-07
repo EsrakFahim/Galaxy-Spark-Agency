@@ -8,8 +8,8 @@ import PricingTable from '.';
 const pricingData = [
   {
     title: 'Business Class',
-    monthlyPrice: '29',
-    yearlyPrice: '59',
+    monthlyPrice: '499',
+    yearlyPrice: '5599',
     currency: '$',
     published: true,
     features: [

@@ -134,29 +134,29 @@ export default function PortfolioPage() {
         </Div>
         <Spacing lg="90" md="45" />
         <Div className="row">
-          {portfolioData.slice(0, itemShow).map((item, index) => (
-            <Div
-              className={`${
-                index === 3 || index === 6 ? 'col-lg-8' : 'col-lg-4'
-              } ${
-                active === 'all'
-                  ? ''
-                  : !(active === item.category)
-                  ? 'd-none'
-                  : ''
-              }`}
-              key={index}
-            >
-              <Portfolio
-                title={item.title}
-                subtitle={item.subtitle}
-                href={item.href}
-                src={item.src}
-                variant="cs-style1 cs-type1"
-              />
-              <Spacing lg="25" md="25" />
-            </Div>
-          ))}
+          {
+            portfolioData.slice(0, itemShow).map((item, index) => (
+              <Div
+                className={`${index === 3 || index === 6 ? 'col-lg-8' : 'col-lg-4'
+                  } ${active === 'all'
+                    ? ''
+                    : !(active === item.category)
+                      ? 'd-none'
+                      : ''
+                  }`}
+                key={index}
+              >
+                <Portfolio
+                  title={item.title}
+                  subtitle={item.subtitle}
+                  href={item.href}
+                  src={item.src}
+                  variant="cs-style1 cs-type1"
+                />
+                <Spacing lg="25" md="25" />
+              </Div>
+            ))
+          }
         </Div>
 
         <Div className="text-center">
