@@ -9,7 +9,7 @@ const pricingData = [
   {
     title: 'Business Class',
     monthlyPrice: '499',
-    yearlyPrice: '5599',
+    yearlyPrice: '4999',
     currency: '$',
     published: true,
     features: [
