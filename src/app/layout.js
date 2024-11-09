@@ -10,6 +10,7 @@ import Div from "./ui/Div";
 import Cta from "./ui/Cta";
 import Spacing from "./ui/Spacing";
 import { Toaster } from "react-hot-toast";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const poppins = Poppins({
       subsets: ["latin"],
@@ -21,6 +22,8 @@ const openSans = Open_Sans({
       weight: ["400", "600", "700"],
       variable: "--secondary-font",
 });
+
+const queryClient = new QueryClient();
 
 export default function RootLayout({ children }) {
       return (
@@ -46,20 +49,22 @@ export default function RootLayout({ children }) {
                   </head>
 
                   <body className={`${openSans.variable} ${poppins.variable}`}>
-                        <Header />
-                        {children}
-                        <Spacing lg="150" md="80" />
-                        <Div className="container">
-                              <Cta
-                                    title="Let’s disscuse make <br />something <i>cool</i> together"
-                                    btnText="Apply For Meeting"
-                                    btnLink="/contact"
-                                    bgSrc="/images/cta_bg.jpeg"
-                              />
-                        </Div>
-                        <Footer />
-                        <CustomCursor />
-                        <Toaster />
+                        <QueryClientProvider client={queryClient}>
+                              <Header />
+                              {children}
+                              <Spacing lg="150" md="80" />
+                              <Div className="container">
+                                    <Cta
+                                          title="Let’s disscuse make <br />something <i>cool</i> together"
+                                          btnText="Apply For Meeting"
+                                          btnLink="/contact"
+                                          bgSrc="/images/cta_bg.jpeg"
+                                    />
+                              </Div>
+                              <Footer />
+                              <CustomCursor />
+                              <Toaster />
+                        </QueryClientProvider>
                   </body>
             </html>
       );
