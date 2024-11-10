@@ -51,7 +51,13 @@ export default function RootLayout({ children }) {
                   <body className={`${openSans.variable} ${poppins.variable}`}>
                         <QueryClientProvider client={queryClient}>
                               <Header />
-                              {children}
+                              <div 
+                              style={
+                                    {
+                                          minHeight: "100vh",
+                                    }
+                              }
+                              >{children}</div>
                               <Spacing lg="150" md="80" />
                               <Div className="container">
                                     <Cta
