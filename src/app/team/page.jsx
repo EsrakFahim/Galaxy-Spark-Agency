@@ -6,6 +6,7 @@ import PageHeading from "@/app/ui/PageHeading";
 import SectionHeading from "@/app/ui/SectionHeading";
 import Spacing from "@/app/ui/Spacing";
 import Team from "@/app/ui/Team";
+import Loader from "../ui/Loader/Loader";
 
 const teamData = [
   {
