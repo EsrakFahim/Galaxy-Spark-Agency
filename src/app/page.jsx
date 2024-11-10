@@ -14,6 +14,8 @@ import TimelineSlider from '@/app/ui/Slider/TimelineSlider';
 import Spacing from '@/app/ui/Spacing';
 import VideoModal from '@/app/ui/VideoModal';
 import Card from './ui/Card';
+import useFetchDataFromDB from '@/API/FetchData';
+import Loader from './ui/Loader/Loader';
 
 // Hero Social Links
 const heroSocialLinks = [
@@ -82,18 +84,34 @@ const portfolioData = [
 ];
 
 export default function Home() {
+
+  const { data, isLoading, isError } = useFetchDataFromDB('home-page');
+  // Use optional chaining and a fallback value to avoid destructuring undefined
+  const {
+    bannerImage = "/images/hero_bg.jpg",
+    callToAction = {},
+    isActive,
+    title = "",
+    subTitle = '',
+    video = '',
+    videoText = ''
+  } = data?.data?.[0] || {};
+
+  if (isLoading) return <Loader />
+
+
   return (
     <>
       {/* Start Hero Section */}
       <Hero
-        title="Creativity In <br/>Our Blood Line"
-        subtitle="We deliver best problem solving solution for our client and provide finest finishing product in present and upcoming future."
-        btnText="Get a Quote"
+        title={title}
+        subtitle={subTitle}
+        btnText={callToAction?.text}
         btnLink="/contact"
         scrollDownId="#service"
         socialLinksHeading="Follow Us"
         heroSocialLinks={heroSocialLinks}
-        bgImageUrl="/images/hero_bg.jpg"
+        bgImageUrl={bannerImage}
         phoneNumber="+880 1958-392794"
         email="galaxysparkbd@gmail.com"
       />
@@ -216,12 +234,13 @@ export default function Home() {
       <Spacing lg="130" md="70" />
       <Div className="container">
         <h2 className="cs-font_50 cs-m0 text-center cs-line_height_4">
-          Our agile process is ability to adapt and respond to change. Agile
-          organizations view change as an opportunity, not a threat.
+          {
+            videoText
+          }
         </h2>
         <Spacing lg="70" md="70" />
         <VideoModal
-          videoSrc="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+          videoSrc={video}
           bgUrl="/images/video_bg.jpeg"
         />
       </Div>

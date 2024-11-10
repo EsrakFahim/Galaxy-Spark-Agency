@@ -1,4 +1,5 @@
 'use client'
+import useFetchDataFromDB from "@/API/FetchData";
 import Cta from "@/app/ui/Cta";
 import Div from "@/app/ui/Div";
 import PageHeading from "@/app/ui/PageHeading";
@@ -98,6 +99,12 @@ const teamData = [
 ];
 
 export default function TeamPage() {
+  const { data, isLoading, isError } = useFetchDataFromDB('team-member');
+
+  console.log("Team Data:", data);
+  if (isLoading) return <Loader />
+
+
   return (
     <>
       <PageHeading
@@ -127,14 +134,6 @@ export default function TeamPage() {
           ))}
         </Div>
         <Spacing lg="70" md="50" />
-        <Div className="container">
-          <Cta
-            title="Let’s disscuse make <br />something <i>cool</i> together"
-            btnText="Apply For Meeting"
-            btnLink="/contact"
-            bgSrc="/images/cta_bg.jpeg"
-          />
-        </Div>
       </Div>
     </>
   );

@@ -1,20 +1,20 @@
 import { useQuery } from "react-query";
+import axios from "axios";
 
-const fetchSingleDataFromDB = async (collection, id) => {
-      const { data, isError, isLoading } = useQuery({
-            queryKey: ["data", collection],
-            queryFn: async () => {
-                  const response = await fetch(
-                        `http://localhost:5000/api/v1/${collection}:${id}`
+const useFetchSingleData = (collection, id) => {
+      return useQuery(
+            ["data", collection, id],
+            async () => {
+                  const { data } = await axios.get(
+                        `${process.env.NEXT_PUBLIC_PRODUCTION_SERVER_API}/${collection}/${id}`
                   );
-                  const data = await response.json();
-                  console.log("data from inside", data);
+                  console.log("Fetched data:", data);
                   return data;
             },
-            refetchOnWindowFocus: false,
-      });
-      console.log("data from outside", data);
-      return { data, isError, isLoading };
+            {
+                  refetchOnWindowFocus: false, // Optional: Disable refetching on window focus
+            }
+      );
 };
 
-export default fetchSingleDataFromDB;
+export default useFetchSingleData;

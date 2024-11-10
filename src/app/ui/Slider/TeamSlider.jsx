@@ -3,6 +3,7 @@ import React from 'react';
 import Slider from 'react-slick';
 import Div from '../Div';
 import Team from '../Team';
+import useFetchDataFromDB from '@/API/FetchData';
 const teamData = [
   {
     memberImage: '/images/member_1.jpeg',
@@ -63,6 +64,8 @@ const teamData = [
 
 export default function TeamSlider() {
   /** Team Member Data **/
+  const { data, isLoading, isError } = useFetchDataFromDB('team-member');
+
 
   /** Slider Settings **/
   const SlickArrowLeft = ({ currentSlide, slideCount, ...props }) => (
@@ -126,13 +129,14 @@ export default function TeamSlider() {
 
   return (
     <Slider {...settings} className="cs-gap-24 cs-arrow_style2">
-      {teamData.map((item, index) => (
+      {data?.data?.map((item, index) => (
         <Div key={index}>
           <Team
-            memberImage={item.memberImage}
-            memberName={item.memberName}
-            memberDesignation={item.memberDesignation}
-            memberSocial={item.memberSocial}
+          id={item?._id}
+            memberImage={item?.avatar}
+            memberName={item?.fullName}
+            memberDesignation={item?.jobTitle}
+            memberSocial={item?.socialLinks}
           />
         </Div>
       ))}

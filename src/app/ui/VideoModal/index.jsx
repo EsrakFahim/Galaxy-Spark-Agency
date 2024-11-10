@@ -6,7 +6,7 @@ export default function VideoModal({ videoSrc, bgUrl, variant }) {
   const [iframeSrc, setIframeSrc] = useState('about:blank');
   const [toggle, setToggle] = useState(false);
   const handelClick = () => {
-    const video = videoSrc.split('?v=')[1].trim();
+    const video = videoSrc.split('?v=')[1]?.trim();
     setIframeSrc(`https://www.youtube.com/embed/${video}`);
     setToggle(!toggle);
   };
@@ -17,9 +17,8 @@ export default function VideoModal({ videoSrc, bgUrl, variant }) {
   return (
     <>
       <Div
-        className={`cs-video_block ${
-          variant ? variant : 'cs-style1'
-        } cs-video_open cs-bg`}
+        className={`cs-video_block ${variant ? variant : 'cs-style1'
+          } cs-video_open cs-bg`}
         style={{ backgroundImage: `url(${bgUrl})` }}
         onClick={handelClick}
       >

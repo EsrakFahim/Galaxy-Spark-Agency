@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Div from '../Div';
 
 export default function Team({
+  id,
   memberImage,
   memberName,
   memberDesignation,
@@ -17,27 +18,27 @@ export default function Team({
       </Div>
       <Div className="cs-member_info">
         <h2 className="cs-member_name">
-          <Link href="/team/team-details">{memberName}</Link>
+          <Link href={`/team/${id}`}>{memberName}</Link>
         </h2>
         <Div className="cs-member_designation">{memberDesignation}</Div>
       </Div>
       <Div className="cs-member_social cs-primary_color">
-        {memberSocial.linkedin && (
-          <Link href={memberSocial.linkedin}>
+        {memberSocial?.linkedin && (
+          <Link href={memberSocial?.linkedin}>
             <Icon icon="fa6-brands:linkedin-in" />
           </Link>
         )}
-        {memberSocial.twitter && (
-          <Link href={memberSocial.twitter}>
+        {memberSocial?.twitter && (
+          <Link href={memberSocial?.twitter}>
             <Icon icon="fa-brands:twitter" />
           </Link>
         )}
-        {memberSocial.youtube && (
-          <Link href={memberSocial.youtube}>
+        {memberSocial?.youtube && (
+          <Link href={memberSocial?.youtube}>
             <Icon icon="fa-brands:youtube" />
           </Link>
         )}
-        {memberSocial.facebook && (
+        {memberSocial?.facebook && (
           <Link href={memberSocial.facebook}>
             <Icon icon="fa-brands:facebook-f" />
           </Link>

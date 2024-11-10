@@ -55,8 +55,8 @@ export default function RootLayout({ children }) {
                               <Spacing lg="150" md="80" />
                               <Div className="container">
                                     <Cta
-                                          title="Let’s disscuse make <br />something <i>cool</i> together"
-                                          btnText="Apply For Meeting"
+                                          title="Let’s discuss to make <br />something <i>BadAss</i> together"
+                                          btnText="Apply For a Date 🫣"
                                           btnLink="/contact"
                                           bgSrc="/images/cta_bg.jpeg"
                                     />
