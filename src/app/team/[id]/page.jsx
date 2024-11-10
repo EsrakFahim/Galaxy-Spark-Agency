@@ -31,6 +31,7 @@ export default function TeamDetails() {
     socialLinks = {},
   } = data?.data || {}; // Fallback to an empty object if data?.data is undefined
 
+  console.log(socialLinks)
 
   if (isLoading) return <Loader />
 
@@ -82,7 +83,9 @@ export default function TeamDetails() {
                 Description:{""} {description}
               </p>
               <Div className="cs-height_45 cs-height_lg_30" />
-              <SocialWidget />
+              <SocialWidget 
+                socialLinks={socialLinks}
+              />
             </Div>
           </Div>
         </Div>
