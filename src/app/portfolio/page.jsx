@@ -1,4 +1,5 @@
-'use client'
+'use client';
+import useFetchDataFromDB from "@/API/FetchData";
 import Cta from "@/app/ui/Cta";
 import Div from "@/app/ui/Div";
 import PageHeading from "@/app/ui/PageHeading";
@@ -6,102 +7,62 @@ import Portfolio from "@/app/ui/Portfolio";
 import SectionHeading from "@/app/ui/SectionHeading";
 import Spacing from "@/app/ui/Spacing";
 import { Icon } from "@iconify/react";
-import { useState } from "react";
-
-const portfolioData = [
-  {
-    title: 'Colorful Art Work',
-    subtitle: 'See Details',
-    href: '/portfolio/portfolio-details',
-    src: '/images/portfolio_4.jpeg',
-    category: 'ui_ux_design',
-  },
-  {
-    title: 'Colorful Art Work',
-    subtitle: 'See Details',
-    href: '/portfolio/portfolio-details',
-    src: '/images/portfolio_5.jpeg',
-    category: 'logo_design',
-  },
-  {
-    title: 'Colorful Art Work',
-    subtitle: 'See Details',
-    href: '/portfolio/portfolio-details',
-    src: '/images/portfolio_6.jpeg',
-    category: 'web_design',
-  },
-  {
-    title: 'Colorful Art Work',
-    subtitle: 'See Details',
-    href: '/portfolio/portfolio-details',
-    src: '/images/portfolio_7.jpeg',
-    category: 'mobile_apps',
-  },
-  {
-    title: 'Colorful Art Work',
-    subtitle: 'See Details',
-    href: '/portfolio/portfolio-details',
-    src: '/images/portfolio_8.jpeg',
-    category: 'ui_ux_design',
-  },
-  {
-    title: 'Colorful Art Work',
-    subtitle: 'See Details',
-    href: '/portfolio/portfolio-details',
-    src: '/images/portfolio_9.jpeg',
-    category: 'web_design',
-  },
-  {
-    title: 'Colorful Art Work',
-    subtitle: 'See Details',
-    href: '/portfolio/portfolio-details',
-    src: '/images/portfolio_10.jpeg',
-    category: 'logo_design',
-  },
-  {
-    title: 'Colorful Art Work',
-    subtitle: 'See Details',
-    href: '/portfolio/portfolio-details',
-    src: '/images/portfolio_4.jpeg',
-    category: 'ui_ux_design',
-  },
-  {
-    title: 'Colorful Art Work',
-    subtitle: 'See Details',
-    href: '/portfolio/portfolio-details',
-    src: '/images/portfolio_5.jpeg',
-    category: 'logo_design',
-  },
-  {
-    title: 'Colorful Art Work',
-    subtitle: 'See Details',
-    href: '/portfolio/portfolio-details',
-    src: '/images/portfolio_6.jpeg',
-    category: 'web_design',
-  },
-];
-const categoryMenu = [
-  {
-    title: 'Web Design',
-    category: 'web_design',
-  },
-  {
-    title: 'UI/UX Design',
-    category: 'ui_ux_design',
-  },
-  {
-    title: 'Mobile Apps',
-    category: 'mobile_apps',
-  },
-  {
-    title: 'Logo Design',
-    category: 'logo_design',
-  },
-];
+import { useEffect, useState } from "react";
+import Loader from "../ui/Loader/Loader";
+import useFetchDataWithLimit from "@/API/useFetchDataWithLimit";
 
 export default function PortfolioPage() {
   const [active, setActive] = useState('all');
-  const [itemShow, setItemShow] = useState(7);
+  const [itemShow, setItemShow] = useState(10);
+  const [projectPage, setProjectPage] = useState(1);
+  const [projects, setProjects] = useState([]);
+  const [projectTypes, setProjectTypes] = useState([]);
+
+  // Fetch projects with pagination
+  const {
+    data: projectsData,
+    isLoading: projectsLoading,
+    isError: projectsError,
+  } = useFetchDataWithLimit('projects', projectPage, itemShow);
+
+  console.log("projects:", projectsData)
+
+  console.log('projectsData:', projects?.length);
+
+  const {
+    data: projectTypesData,
+    isLoading: projectTypesLoading,
+    isError: projectTypesError,
+  } = useFetchDataFromDB('projects/types');
+
+  // Fetch projects when projectsData changes
+  useEffect(() => {
+    if (projectsData?.data) {
+      // Append new projects to the existing list
+      setProjects(prevProjects => [...prevProjects, ...projectsData.data.projects]);
+    }
+  }, [projectsData]);
+
+  // Fetch project types
+  useEffect(() => {
+    if (projectTypesData?.data) {
+      setProjectTypes(prevTypes => [...prevTypes, ...projectTypesData.data]);
+    }
+  }, [projectTypesData]);
+
+  // Loader or Error
+  if (projectsLoading || projectTypesLoading) {
+    return <Loader />;
+  }
+
+  if (projectsError || projectTypesError) {
+    return <div>Error loading data...</div>;
+  }
+
+  // Load more projects by incrementing page
+  const handleLoadMoreProjects = () => {
+    setProjectPage(prev => prev + 1);
+  };
 
   return (
     <>
@@ -119,14 +80,9 @@ export default function PortfolioPage() {
               <li className={active === 'all' ? 'active' : ''}>
                 <span onClick={() => setActive('all')}>All</span>
               </li>
-              {categoryMenu.map((item, index) => (
-                <li
-                  className={active === item.category ? 'active' : ''}
-                  key={index}
-                >
-                  <span onClick={() => setActive(item.category)}>
-                    {item.title}
-                  </span>
+              {projectTypes.map((item, index) => (
+                <li className={active === item ? 'active' : ''} key={index}>
+                  <span onClick={() => setActive(item)}>{item}</span>
                 </li>
               ))}
             </ul>
@@ -134,42 +90,27 @@ export default function PortfolioPage() {
         </Div>
         <Spacing lg="90" md="45" />
         <Div className="row">
-          {
-            portfolioData.slice(0, itemShow).map((item, index) => (
-              <Div
-                className={`${index === 3 || index === 6 ? 'col-lg-8' : 'col-lg-4'
-                  } ${active === 'all'
-                    ? ''
-                    : !(active === item.category)
-                      ? 'd-none'
-                      : ''
-                  }`}
-                key={index}
-              >
-                <Portfolio
-                  title={item.title}
-                  subtitle={item.subtitle}
-                  href={item.href}
-                  src={item.src}
-                  variant="cs-style1 cs-type1"
-                />
-                <Spacing lg="25" md="25" />
-              </Div>
-            ))
-          }
+          {projects.map((item, index) => (
+            <Div
+              className={`${index === 3 || index === 6 ? 'col-lg-8' : 'col-lg-4'} ${active === 'all' ? '' : !(active === item?.projectType) ? 'd-none' : ''}`}
+              key={index}
+            >
+              <Portfolio
+                title={item?.name}
+                href={`/portfolio/${item?._id}`}
+                src={item?.files[0]?.url || '/images/portfolio_4.jpeg'}
+                variant="cs-style1 cs-type1"
+              />
+              <Spacing lg="25" md="25" />
+            </Div>
+          ))}
         </Div>
-
         <Div className="text-center">
-          {portfolioData.length <= itemShow ? (
-            ''
-          ) : (
+          {projectsData?.data?.length < itemShow ? '' : (
             <>
               <Spacing lg="65" md="40" />
-              <span
-                className="cs-text_btn"
-                onClick={() => setItemShow(itemShow + 3)}
-              >
-                <span>Load More</span>
+              <span className="cs-text_btn" onClick={handleLoadMoreProjects}>
+                <span>Load More Projects</span>
                 <Icon icon="bi:arrow-right" />
               </span>
             </>
