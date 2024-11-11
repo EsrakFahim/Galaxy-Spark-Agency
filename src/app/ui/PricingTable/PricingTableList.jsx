@@ -3,6 +3,8 @@ import Section from '../Div';
 import Spacing from '../Spacing';
 import Div from '../Div';
 import PricingTable from '.';
+import useFetchDataFromDB from '@/API/FetchData';
+import Loader from '../Loader/Loader';
 
 // Sample pricing data
 const pricingData = [
@@ -64,7 +66,12 @@ const pricingData = [
 ];
 
 export default function PricingTableList() {
+  const { data, isLoading, isError } = useFetchDataFromDB('price-plan');
+  console.log("All Price Plans Here", data);
   const [tab, setTab] = useState('monthly');
+
+  if (isLoading) return <Loader />;
+  if (isError) return <div>Something went wrong</div>;
 
   return (
     <Section className="position-relative">
@@ -84,7 +91,7 @@ export default function PricingTableList() {
       </ul>
 
       <Section className="row align-items-stretch">
-        {pricingData.map((plan, index) => (
+        {data?.data?.map((plan, index) => (
           <Section className="col-lg-4 d-flex" key={index}>
             {plan.published ? (
               <PricingTable
@@ -94,7 +101,7 @@ export default function PricingTableList() {
                 timeline={tab}
                 features={plan.features}
                 btnText={plan.btnText}
-                btnLink={plan.btnLink}
+                btnLink={plan.btnLink || '/contact'}
               />
             ) : (
               <Div className="cs-pricing_table cs-style1 d-flex align-items-center justify-content-center">

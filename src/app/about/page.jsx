@@ -11,7 +11,11 @@ import aboutImg from '../../../public/images/about_img_1.jpeg'
 import aboutImg2 from '../../../public/images/about_img_2.jpeg'
 import aboutImg3 from '../../../public/images/about_img_3.jpeg'
 import aboutImg4 from '../../../public/images/about_img_4.jpeg'
+import useFetchDataFromDB from "@/API/FetchData";
+import Loader from "../ui/Loader/Loader";
 
+const defaultBlurDataURL =
+  'data:image/svg+xml;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABWElEQVR42pWSv0oDQRCEv6cC8RFqooYuwih7axdrKqWskfQFX0B7+Bm/g2zljBZNIBm8s3BspUcqNgpGCLzKSmJz0kCYxZvH/+8eYuvYYzzPQgBT4AngDC+FXAJ25ihPoAmD+Mw0L0DHRHnAJHgAFgNeTTnCTYCoEAW8DNEw7HBWh98UqqBx4F4VtceW7Ae3BepGQWBYFZ+H1gCp8UBowXXAWLBvL8jQSCFblsP+S2PYWuYN4GaMRBodQa7wOcY3dm6bplx3jwAlhnsKOBdVYhve2w1NC7RNjjDwEPvwjqaPxtcOkZGkaCC8vssoZ4h9BLXrHt1UimViJjRLNzGpHTD7pbU26tCdUkt8FWN0r+n7OH7XxYc9HK4OxFNjmZYJRuB9DZJ8xWus9aQETaGQnkL/bvL87dF7VW1ve1+MwAAAABJRU5ErkJggg==';
 
 
 
@@ -35,6 +39,23 @@ const funfaceData = [
 ];
 
 export default function AboutPage() {
+  const { data, isLoading, isError } = useFetchDataFromDB('about-page')
+
+  if (isLoading) return <Loader />
+  if (isError) return <div>Error</div>
+
+  console.log(data)
+
+  const {
+    title,
+    description,
+    whyWeTitle,
+    whyWeDescription,
+    images,
+    whyWeImage,
+    benefits,
+  } = data?.data[0] || {}
+
   return (
     <>
       {/* Start Page Heading Section */}
@@ -51,16 +72,14 @@ export default function AboutPage() {
         <Div className="row">
           <Div className="col-xl-5 col-lg-7">
             <SectionHeading
-              title="Your trusted partner for business"
+              title={title}
               subtitle="About Our Agency"
             >
               <Spacing lg="30" md="20" />
               <p className="cs-m0">
-                This is the main factor that sets us apart from our competition
-                and allows us to deliver a specialist business consultancy
-                service. Our team applies its wide-ranging experience to
-                determining. Through our years of experience, we’ve also learned
-                that while each channel.
+                {
+                  description
+                }
               </p>
               <Spacing lg="30" md="30" />
               <Div className="cs-separator cs-accent_bg"></Div>
@@ -69,24 +88,39 @@ export default function AboutPage() {
           </Div>
           <Div className="col-lg-5 offset-xl-2">
             <Image
-              src={aboutImg}
-              alt="About"
+              width={500}
+              height={500}
+              layout="responsive"
+              placeholder="blur"
+              blurDataURL={defaultBlurDataURL}
+              src={images[0]?.imageUrl || aboutImg}
+              alt={images[0]?.alt || 'About'}
               className="w-100 cs-radius_15"
             />
             <Spacing lg="25" md="25" />
           </Div>
           <Div className="col-lg-7">
             <Image
-              src={aboutImg2}
-              alt="About"
+              width={500}
+              height={500}
+              layout="responsive"
+              placeholder="blur"
+              blurDataURL={defaultBlurDataURL}
+              src={images[1]?.imageUrl || aboutImg2}
+              alt={images[1]?.alt || 'About'}
               className="w-100 cs-radius_15"
             />
             <Spacing lg="25" md="25" />
           </Div>
           <Div className="col-lg-5">
             <Image
-              src={aboutImg3}
-              alt="About"
+              width={500}
+              height={500}
+              layout="responsive"
+              placeholder="blur"
+              blurDataURL={defaultBlurDataURL}
+              src={images[2]?.imageUrl || aboutImg}
+              alt={images[2]?.alt || 'About'}
               className="w-100 cs-radius_15"
             />
             <Spacing lg="25" md="25" />
@@ -114,8 +148,13 @@ export default function AboutPage() {
             <Div className="cs-image_layer cs-style1">
               <Div className="cs-image_layer_in">
                 <Image
-                  src={aboutImg4}
+                  src={whyWeImage || aboutImg4}
                   alt="About"
+                  width={500}
+                  height={500}
+                  layout="responsive"
+                  placeholder="blur"
+                  blurDataURL={defaultBlurDataURL}
                   className="w-100 cs-radius_15"
                 />
               </Div>
@@ -124,23 +163,14 @@ export default function AboutPage() {
           </Div>
           <Div className="col-xl-5 offset-xl-1 col-lg-6">
             <SectionHeading
-              title="Highly experienced pepole with us"
+              title={whyWeTitle}
               subtitle="Why Choose Us"
             >
               <Spacing lg="30" md="20" />
               <p className="cs-m0">
-                This is the main factor that sets us apart from our competition
-                and allows us to deliver a specialist business consultancy
-                service. Our team applies its wide-ranging experience to
-                determining. Through our years of experience, we’ve also learned
-                that while each channel.
-              </p>
-              <Spacing lg="15" md="15" />
-              <p className="cs-m0">
-                This is the main factor that sets us apart from our competition
-                and allows us to deliver a specialist business consultancy
-                service. Our team applies its wide-ranging experience to
-                determining.
+                {
+                  whyWeDescription
+                }
               </p>
               <Spacing lg="30" md="30" />
               <Div className="cs-separator cs-accent_bg"></Div>

@@ -10,6 +10,7 @@ import imgUrl from '../../../../public/images/portfolio_details_1.jpeg'
 import { useParams } from "next/navigation";
 import useFetchSingleData from "@/API/FetchSingleData";
 import Loader from "@/app/ui/Loader/Loader";
+import Link from "next/link";
 
 const defaultBlurDataURL =
   'data:image/svg+xml;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABWElEQVR42pWSv0oDQRCEv6cC8RFqooYuwih7axdrKqWskfQFX0B7+Bm/g2zljBZNIBm8s3BspUcqNgpGCLzKSmJz0kCYxZvH/+8eYuvYYzzPQgBT4AngDC+FXAJ25ihPoAmD+Mw0L0DHRHnAJHgAFgNeTTnCTYCoEAW8DNEw7HBWh98UqqBx4F4VtceW7Ae3BepGQWBYFZ+H1gCp8UBowXXAWLBvL8jQSCFblsP+S2PYWuYN4GaMRBodQa7wOcY3dm6bplx3jwAlhnsKOBdVYhve2w1NC7RNjjDwEPvwjqaPxtcOkZGkaCC8vssoZ4h9BLXrHt1UimViJjRLNzGpHTD7pbU26tCdUkt8FWN0r+n7OH7XxYc9HK4OxFNjmZYJRuB9DZJ8xWus9aQETaGQnkL/bvL87dF7VW1ve1+MwAAAABJRU5ErkJggg==';
@@ -64,13 +65,14 @@ export default function PortfolioDetailsPage() {
         <Div className="row">
           <Div className="col-lg-6">
             <SectionHeading
-              title='Graffiti wall artwork'
-              subtitle='Creative'
+              title={name}
+              subtitle={projectType}
             >
               <Spacing lg='40' md='20' />
-              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium voltire doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+              <p>
+                {description}
+              </p>
               <Spacing lg='10' md='10' />
-              <p>Ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit.</p>
             </SectionHeading>
           </Div>
           <Div className="col-lg-5 offset-lg-1">
@@ -80,41 +82,86 @@ export default function PortfolioDetailsPage() {
             <Div className="row">
               <Div className="col-6">
                 <h3 className='cs-accent_color cs-font_22 cs-font_18_sm cs-m0'>Category:</h3>
-                <p className='cs-m0'>Artwork</p>
+                <p className='cs-m0'>
+                  {projectType}
+                </p>
                 <Spacing lg='30' md='30' />
               </Div>
               <Div className="col-6">
-                <h3 className='cs-accent_color cs-font_22 cs-font_18_sm cs-m0'>Location:</h3>
-                <p className='cs-m0'>United Kindom</p>
+                <h3 className='cs-accent_color cs-font_22 cs-font_18_sm cs-m0'>
+                  Budget:
+                </h3>
+                <p className='cs-m0'>
+                  {
+                    budget ? budget : 'N/A'
+                  }
+                </p>
                 <Spacing lg='30' md='30' />
               </Div>
               <Div className="col-6">
                 <h3 className='cs-accent_color cs-font_22 cs-font_18_sm cs-m0'>Software:</h3>
-                <p className='cs-m0'>Adobe Illustrator</p>
+                <p className='cs-m0'>
+                  {
+                    tech.join(', ')
+                  }
+                </p>
                 <Spacing lg='30' md='30' />
               </Div>
               <Div className="col-6">
                 <h3 className='cs-accent_color cs-font_22 cs-font_18_sm cs-m0'>Dated:</h3>
-                <p className='cs-m0'>14-Aug-2022</p>
+                <p className='cs-m0'>
+                  {
+                    startDate ? new Date(startDate).toDateString() : '-'
+                  }
+                </p>
                 <Spacing lg='30' md='30' />
               </Div>
               <Div className="col-6">
                 <h3 className='cs-accent_color cs-font_22 cs-font_18_sm cs-m0'>Client:</h3>
-                <p className='cs-m0'>Andreo Bowla</p>
+                <p className='cs-m0'>
+                  {
+                    client
+                  }
+                </p>
+                <Spacing lg='30' md='30' />
+              </Div>
+              <Div className="col-6">
+                <h3 className='cs-accent_color cs-font_22 cs-font_18_sm cs-m0'>
+                  Team Member:
+                </h3>
+                <p className='cs-m0'>
+                  {
+                    team.map((item, index) => (
+                      <Link href='#' key={index}>
+                        {item}
+                        {index < team.length - 1 ? ', ' : ''}
+                      </Link>
+                    ))
+                  }
+                </p>
+                <Spacing lg='30' md='30' />
+              </Div>
+              <Div className="col-6">
+                <h3 className='cs-accent_color cs-font_22 cs-font_18_sm cs-m0'>Status:</h3>
+                <p className='cs-m0'>
+                  {
+                    status
+                  }
+                </p>
                 <Spacing lg='30' md='30' />
               </Div>
             </Div>
           </Div>
         </Div>
         <Spacing lg='65' md='10' />
-        <Div className="cs-page_navigation cs-center">
+        {/* <Div className="cs-page_navigation cs-center">
           <Div>
             <Button btnLink='/portfolio/portfolio-details' btnText='Prev Project' variant='cs-type1' />
           </Div>
           <Div>
             <Button btnLink='/portfolio/portfolio-details' btnText='Next Project' />
           </Div>
-        </Div>
+        </Div> */}
       </Div>
       <Spacing lg='145' md='80' />
       <Cta

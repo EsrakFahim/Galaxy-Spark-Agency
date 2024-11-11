@@ -25,10 +25,6 @@ export default function PortfolioPage() {
     isError: projectsError,
   } = useFetchDataWithLimit('projects', projectPage, itemShow);
 
-  console.log("projects:", projectsData)
-
-  console.log('projectsData:', projects?.length);
-
   const {
     data: projectTypesData,
     isLoading: projectTypesLoading,
