@@ -1,77 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Section from '../Div';
-import Spacing from '../Spacing';
 import Div from '../Div';
 import PricingTable from '.';
 import useFetchDataFromDB from '@/API/FetchData';
 import Loader from '../Loader/Loader';
 
-// Sample pricing data
-const pricingData = [
-  {
-    title: 'Business Class',
-    monthlyPrice: '499',
-    yearlyPrice: '4999',
-    currency: '$',
-    published: true,
-    features: [
-      "Identity Design",
-      "Web Design",
-      "Web Development or Rebuild",
-      "Website Maintenance",
-      "Search Engine Optimization",
-      "15 Infographics Content",
-      "5 Short Videos & 1 Long Video",
-      "Social Media Marketing",
-      "Search Engine Marketing",
-      "E-mail / SMS Marketing",
-    ],
-    btnText: 'Purchase Now',
-    btnLink: '/contact'
-  },
-  {
-    title: 'Professional',
-    monthlyPrice: '199',
-    yearlyPrice: '399',
-    currency: '$',
-    published: false,
-    features: [
-      'Static responsive website',
-      'Video marketing',
-      'Keywords research',
-      'Facebook campaign',
-      'eCommerce solution',
-      'Google AdWords'
-    ],
-    btnText: 'Purchase Now',
-    btnLink: '/'
-  },
-  {
-    title: 'Ultimate',
-    monthlyPrice: '299',
-    yearlyPrice: '599',
-    currency: '$',
-    published: false,
-    features: [
-      'Static responsive website',
-      'Video marketing',
-      'Keywords research',
-      'Facebook campaign',
-      'eCommerce solution',
-      'Google AdWords'
-    ],
-    btnText: 'Purchase Now',
-    btnLink: '/'
-  }
-];
-
 export default function PricingTableList() {
   const { data, isLoading, isError } = useFetchDataFromDB('price-plan');
-  console.log("All Price Plans Here", data);
   const [tab, setTab] = useState('monthly');
 
   if (isLoading) return <Loader />;
   if (isError) return <div>Something went wrong</div>;
+
 
   return (
     <Section className="position-relative">

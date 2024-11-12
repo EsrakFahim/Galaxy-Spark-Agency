@@ -9,9 +9,20 @@ import SectionHeading from "@/app/ui/SectionHeading";
 import TestimonialSlider from "@/app/ui/Slider/TestimonialSlider";
 import Spacing from "@/app/ui/Spacing";
 import Loader from "../ui/Loader/Loader";
+import { useEffect } from "react";
 
 export default function ServicesPage() {
   const { data, isLoading, isError } = useFetchDataFromDB('service');
+
+
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, []);
+
 
   console.log("All Services Here", data);
   if (isLoading) return <Loader />;
